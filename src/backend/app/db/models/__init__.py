@@ -1,0 +1,1 @@
+from .quotes_model import QuotesORM
