@@ -1,13 +1,17 @@
+from sqlalchemy import select
+
 from ..models import QuotesORM
 from ..session import get_db 
 
 from abc import ABC, abstractmethod
 
 class AbstractQuotesCRUD(ABC):
+    @staticmethod
     @abstractmethod
     def add_quote(self, quote, author, explaining):
         pass
 
+        
 class QuotesCRUD(AbstractQuotesCRUD):
     @staticmethod
     def add_quote(quote, author, explaining):
@@ -20,5 +24,5 @@ class QuotesCRUD(AbstractQuotesCRUD):
             db.refresh(new_quote)
             
             return new_quote
-
+        
 crud_operations = QuotesCRUD()

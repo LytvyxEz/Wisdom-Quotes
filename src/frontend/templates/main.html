@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wisdom Quotes</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">Home</a>
+        </nav>
+    </header>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <h1>Wisdom Quotes</h1>
+            </div>
+            <p class="tagline">Discover timeless wisdom, one quote at a time</p>
+        </header>
+        <main class="main-content">
+            <div class="hero-section">
+                <div class="hero-text">
+                    <h2>Ready for some wisdom?</h2>
+                    <p>Click the button below to receive a carefully curated quote along with its deeper meaning and context.</p>
+                </div>
+                
+                <a href="/quotes/random" class="cta-button">
+                    <span class="button-text">Get Random Quote</span>
+                </a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
