@@ -490,3 +490,46 @@ header nav a:hover::after {
     }
 }
 
+.translation-badge {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.author {
+    font-style: italic;
+    color: #666;
+    margin: 15px 0;
+}
+
+.explanation {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: 10px;
+    border-left: 4px solid #667eea;
+}
+
+.explanation h3 {
+    margin-top: 0;
+    color: #667eea;
+    font-size: 18px;
+}
+
+.language-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.language-buttons .cta-button {
+    flex: 0 1 auto;
+    min-width: 150px;
+}

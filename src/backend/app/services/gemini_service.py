@@ -1,12 +1,14 @@
 from google import genai
-from google.genai import types
+# from google.genai import types
 
 from dotenv import load_dotenv
 import os
 from abc import ABC, abstractmethod
+import asyncio
 
 from uttils import try_except, logger
 from .scrap_service import parser
+
 
 load_dotenv()
 
@@ -54,8 +56,9 @@ class Gemini(LLM):
     
     
     @try_except
-    def random_quote(self) -> str:
-        response = self.__client.models.generate_content(
+    async def random_quote(self) -> str:
+        response = await asyncio.to_thread(
+            self.__client.models.generate_content, 
             model="gemini-2.5-flash",
             contents=f"""Choose a random quote from this dict '{self.quotes}' and explain what does it mean.
             Return ONLY a valid JSON object (no markdown, no code blocks, no backticks), like:
@@ -66,7 +69,23 @@ class Gemini(LLM):
             }}
             """, #config=self.__config
         )
-            
+        
+        return response.text
+    
+    @try_except
+    async def get_translated_quote(self, json_quote: dict, language: str = 'ukrainian') -> str:
+        response = await asyncio.to_thread(
+            self.__client.models.generate_content,
+            model="gemini-2.5-flash",
+            contents=f"""Translate this json {json_quote} to {language}.
+            Return ONLY a valid JSON object (no markdown, no code blocks, no backticks), like:
+            {{
+                "quote": "цитата тут",
+                "author": "автор тут",
+                "explaining": "пояснення тут"
+            }}
+            """)
+        
         return response.text
         
         
