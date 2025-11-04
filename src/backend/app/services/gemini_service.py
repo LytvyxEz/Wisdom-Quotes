@@ -54,39 +54,45 @@ class Gemini(LLM):
         self.__parser = parser
     
     
-    
     @try_except
     async def random_quote(self) -> str:
-        response = await asyncio.to_thread(
-            self.__client.models.generate_content, 
-            model="gemini-2.5-flash",
-            contents=f"""Choose a random quote from this dict '{await self.__parser.parse()}' and explain what does it mean.
-            Return ONLY a valid JSON object (no markdown, no code blocks, no backticks), like:
-            {{
-                "quote": "quote here",
-                "author": "author here",
-                "explaining": "explanation here"
-            }}
-            """, #config=self.__config
-        )
-        
+        quotes_dict = self.__parser.parse()
+
+        def generate():
+            return self.__client.models.generate_content(
+                model="gemini-2.5-flash",
+                contents=f"""
+                    Choose a random quote from this dict '{quotes_dict}' and explain what does it mean.
+                    Return ONLY a valid JSON object (no markdown, no code blocks, no backticks), like:
+                    {{
+                        "quote": "quote here",
+                        "author": "author here",
+                        "explaining": "explanation here"
+                    }}
+                """
+            )
+
+        response = await asyncio.to_thread(generate)
         return response.text
-    
+
     @try_except
     async def get_translated_quote(self, json_quote: dict, language: str) -> str:
-        response = await asyncio.to_thread(
-            self.__client.models.generate_content,
-            model="gemini-2.5-flash",
-            contents=f"""Translate this json {json_quote} to {language}.
-            Return ONLY a valid JSON object (no markdown, no code blocks, no backticks), like:
-            {{
-                "quote": "цитата тут",
-                "author": "автор тут",
-                "explaining": "пояснення тут"
-            }}
-            """)
-        
+        def generate():
+            return self.__client.models.generate_content(
+                model="gemini-2.5-flash",
+                contents=f"""
+                    Translate this JSON {json_quote} to {language}.
+                    Return ONLY a valid JSON object (no markdown, no code blocks, no backticks), like:
+                    {{
+                        "quote": "цитата тут",
+                        "author": "автор тут",
+                        "explaining": "пояснення тут"
+                    }}
+                """
+            )
+
+        response = await asyncio.to_thread(generate)
         return response.text
-        
-        
+
+
 gemini = Gemini()

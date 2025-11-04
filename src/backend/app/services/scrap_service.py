@@ -18,10 +18,9 @@ class AbstractParser(ABC):
         pass
 
 class Parser(AbstractParser):
-    
     @try_except
     @lru_cache
-    async def parse(self) -> List[str]:
+    def parse(self) -> List[str]:
         for i in range(1, 11):
             soup = BeautifulSoup(requests.get(f"https://quotes.toscrape.com/page/{i}").text, "html.parser")
             for quote in soup.findAll('span', class_='text'):
