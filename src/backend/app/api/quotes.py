@@ -48,6 +48,7 @@ async def get_random_quote(
         {
             'request': request,
             'response': json_response,
-            'is_translated': False
+            'language': language,
+            'is_translated': False if not language else True
         }
     )

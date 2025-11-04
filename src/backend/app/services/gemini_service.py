@@ -51,7 +51,7 @@ class Gemini(LLM):
     def __init__(self):
         self.__client = genai.Client(api_key=GEMINI_API_KEY)
         # self.__config = LLM.get_config()
-        self.quotes = parser.parse()
+        self.__parser = parser
     
     
     
@@ -60,7 +60,7 @@ class Gemini(LLM):
         response = await asyncio.to_thread(
             self.__client.models.generate_content, 
             model="gemini-2.5-flash",
-            contents=f"""Choose a random quote from this dict '{self.quotes}' and explain what does it mean.
+            contents=f"""Choose a random quote from this dict '{await self.__parser.parse()}' and explain what does it mean.
             Return ONLY a valid JSON object (no markdown, no code blocks, no backticks), like:
             {{
                 "quote": "quote here",
@@ -73,7 +73,7 @@ class Gemini(LLM):
         return response.text
     
     @try_except
-    async def get_translated_quote(self, json_quote: dict, language: str = 'ukrainian') -> str:
+    async def get_translated_quote(self, json_quote: dict, language: str) -> str:
         response = await asyncio.to_thread(
             self.__client.models.generate_content,
             model="gemini-2.5-flash",

@@ -14,15 +14,14 @@ class AbstractParser(ABC):
         self.authors = []
         self.full_quotes = {}
     @abstractmethod
-    def parse(self):
+    async def parse(self):
         pass
 
 class Parser(AbstractParser):
     
-    
     @try_except
     @lru_cache
-    def parse(self) -> List[str]:
+    async def parse(self) -> List[str]:
         for i in range(1, 11):
             soup = BeautifulSoup(requests.get(f"https://quotes.toscrape.com/page/{i}").text, "html.parser")
             for quote in soup.findAll('span', class_='text'):
