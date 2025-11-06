@@ -13,6 +13,7 @@ class AbstractParser(ABC):
         self.quotes = []
         self.authors = []
         self.full_quotes = {}
+        
     @abstractmethod
     async def parse(self):
         pass

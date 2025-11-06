@@ -84,9 +84,9 @@ class Gemini(LLM):
                     Translate this JSON {json_quote} to {language}.
                     Return ONLY a valid JSON object (no markdown, no code blocks, no backticks), like:
                     {{
-                        "quote": "цитата тут",
-                        "author": "автор тут",
-                        "explaining": "пояснення тут"
+                        "quote": "quote here",
+                        "author": "author here",
+                        "explaining": "explaining here"
                     }}
                 """
             )

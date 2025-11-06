@@ -36,7 +36,7 @@ async def get_random_quote(
         cleaned_response = cleaner(response.strip())
         json_response = json.loads(cleaned_response)
         
-        crud_operations.add_quote(
+        await crud_operations.add_quote(
             quote=json_response['quote'], 
             author=json_response['author'], 
             explaining=json_response['explaining']
