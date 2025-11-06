@@ -47,6 +47,7 @@ class LLM(ABC):
     # def get_config():
     #     return types.GenerateContentConfig(tools=[types.Tool(function_declarations=[get_quote_function])])
 
+
 class Gemini(LLM):
     def __init__(self):
         self.__client = genai.Client(api_key=GEMINI_API_KEY)
@@ -56,7 +57,7 @@ class Gemini(LLM):
     
     @try_except
     async def random_quote(self) -> str:
-        quotes_dict = self.__parser.parse()
+        quotes_dict = await self.__parser.parse()
 
         def generate():
             return self.__client.models.generate_content(
@@ -71,7 +72,6 @@ class Gemini(LLM):
                     }}
                 """
             )
-
         response = await asyncio.to_thread(generate)
         return response.text
 

@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 from abc import ABC, abstractmethod
 from typing import List
-from functools import lru_cache
+from async_lru import alru_cache
 
 from uttils import try_except
 
@@ -19,8 +19,8 @@ class AbstractParser(ABC):
 
 class Parser(AbstractParser):
     @try_except
-    @lru_cache
-    def parse(self) -> List[str]:
+    @alru_cache
+    async def parse(self) -> List[str]:
         for i in range(1, 11):
             soup = BeautifulSoup(requests.get(f"https://quotes.toscrape.com/page/{i}").text, "html.parser")
             for quote in soup.findAll('span', class_='text'):
